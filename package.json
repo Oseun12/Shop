@@ -7,11 +7,11 @@
     "node": "21.5.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production MONGO_USER=marrizzsalau7 MONGO_PASSWORD=001479 MONGO_DEFAULT_DATABASE=shop STRIPE_KEY=pk_live_51OtnAWDMMR4BBETSN7YYtrnkPDgSRseutHhE8RzNFlkQ79jjBU8SwfayMNub1H8nT4n6OWUu5Q38VKgbix45TYec00fSjf3GVI node app.js",
-    "start-server": "node app.js",
-    "start:dev": "nodemon app.js"
-  },
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "NODE_ENV=production node -r dotenv/config app.js",
+  "start-server": "node app.js",
+  "start:dev": "nodemon -r dotenv/config app.js"
+},
   "author": "Oluwaseun",
   "license": "ISC",
   "devDependencies": {
