@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
@@ -16,24 +18,27 @@ const compression = require('compression');
 const morgan = require('morgan');
 
 
+
 const errorController = require('./controllers/error');
 const shopController = require('./controllers/shop');
 const isAuth = require('./middleware/is-auth');
 const User = require('./models/user');
 
-const MONGODB_URI = 
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.kepxlcb.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority&appName=Cluster0`
+const MONGO_USER = process.env.MONGO_USER;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+const MONGO_DEFAULT_DATABASE = process.env.MONGO_DEFAULT_DATABASE;
+
+const mongoUrl = 
+    `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@cluster0.kepxlcb.mongodb.net/${MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority&appName=Cluster0`
 
 const app = express();
 
 const store = new MongoDBStore({
-    uri: MONGODB_URI,
+    uri: mongoUrl,
     collection: 'sessions'
 });
 const csrfProtection = csrf();
 
-// const privateKey = fs.readFileSync('server.key');
-// const certificate = fs.readFileSync('server.cert')
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -146,7 +151,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect(MONGODB_URI)
+    .connect(mongoUrl)
     .then(result => {
 
         // https
